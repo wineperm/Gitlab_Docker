@@ -1,28 +1,39 @@
 # Gitlab_Docker
+
 =================
-Install Docker
+
+## Установка Docker
+
 -----------------
 
-```
+Для установки Docker выполните следующие команды:
+
+```bash
 curl -fsSL https://get.docker.com -o get-docker.sh
 sh ./get-docker.sh
 ```
 
 ----------------
-Install Gitlab
-----------------
-```docker-compose.yml```
 
-```services:
+## Установка Gitlab
+
+----------------
+
+### Создание файла `docker-compose.yml`
+
+Создайте файл `docker-compose.yml` со следующим содержимым:
+
+```yaml
+services:
   gitlab:
     image: gitlab/gitlab-ce:latest
     container_name: gitlab
     restart: always
-    hostname: 'gitlab.example.com'
+    hostname: '89.169.142.63' # Замените на ваш IP
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        # Add any other gitlab.rb configuration here, each on its own line
-        external_url 'https://89.169.142.63'
+        external_url 'http://89.169.142.63' # Замените на ваш IP
+        gitlab_rails['initial_root_password'] = 'yourpassword1' # Замените на ваш пароль
     ports:
       - '80:80'
       - '443:443'
@@ -35,44 +46,78 @@ Install Gitlab
 ```
 
 -------------------
-root password 24 hours
--------------------
-```sudo docker exec -it gitlab /bin/bash```
-```cat /etc/gitlab/initial_root_password```
+
+## Получение пароля root (действителен 24 часа)
 
 -------------------
-changing the password
--------------------
-```sudo docker exec -it gitlab /bin/bash```
-```gitlab-rails console -e production```
-```user = User.where(id: 1).first```
-```user.password = 'new_password'```
-```user.password_confirmation = 'new_password'```
-```user.save!```
-exit
 
-------------------
-installing ranner linux
-------------------
-# Download the binary for your system
-```sudo curl -L --output /usr/local/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64```
+Для получения начального пароля root выполните следующие команды:
 
-# Give it permission to execute
-```sudo chmod +x /usr/local/bin/gitlab-runner```
-
-# Create a GitLab Runner user
-```sudo useradd --comment 'GitLab Runner' --create-home gitlab-runner --shell /bin/bash```
-
-# Install and run as a service
-```sudo gitlab-runner install --user=gitlab-runner --working-directory=/home/gitlab-runner```
-```sudo gitlab-runner start```
-
------------------
-certificate
------------------
-openssl.cnf
-
+```bash
+sudo docker exec -it gitlab /bin/bash
+cat /etc/gitlab/initial_root_password
 ```
+
+-------------------
+
+## Изменение пароля
+
+-------------------
+
+Для изменения пароля root выполните следующие команды:
+
+```bash
+sudo docker exec -it gitlab /bin/bash
+gitlab-rails console -e production
+user = User.where(id: 1).first
+user.password = 'new_password'
+user.password_confirmation = 'new_password'
+user.save!
+exit
+```
+
+------------------
+
+## Установка GitLab Runner
+
+------------------
+
+### Скачивание бинарного файла для вашей системы
+
+```bash
+sudo curl -L --output /usr/local/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64
+```
+
+### Предоставление прав на выполнение
+
+```bash
+sudo chmod +x /usr/local/bin/gitlab-runner
+```
+
+### Создание пользователя GitLab Runner
+
+```bash
+sudo useradd --comment 'GitLab Runner' --create-home gitlab-runner --shell /bin/bash
+```
+
+### Установка и запуск как сервиса
+
+```bash
+sudo gitlab-runner install --user=gitlab-runner --working-directory=/home/gitlab-runner
+sudo gitlab-runner start
+```
+
+-----------------
+
+## Генерация сертификата
+
+-----------------
+
+### Создание файла конфигурации `openssl.cnf`
+
+Создайте файл `openssl.cnf` со следующим содержимым:
+
+```ini
 [req]
 distinguished_name = req_distinguished_name
 req_extensions = req_ext
@@ -100,30 +145,34 @@ extendedKeyUsage = serverAuth
 DNS.1 = 89.169.142.63
 ```
 
-# Генерация приватного ключа
-```openssl genpkey -algorithm RSA -out gitlab.key -aes256```
+### Генерация приватного ключа
 
-# Генерация запроса на подпись сертификата (CSR)
-```openssl req -new -key gitlab.key -out gitlab.csr -config openssl.cnf```
+```bash
+openssl genpkey -algorithm RSA -out gitlab.key -aes256
+```
 
-# Подпись CSR с помощью приватного ключа для создания самоподписанного сертификата
-```openssl x509 -req -days 365 -in gitlab.csr -signkey gitlab.key -out gitlab.crt -extensions v3_ca -extfile openssl.cnf```
+### Генерация запроса на подпись сертификата (CSR)
 
-```sudo cp gitlab.crt /usr/local/share/ca-certificates/gitlab.crt```
+```bash
+openssl req -new -key gitlab.key -out gitlab.csr -config openssl.cnf
+```
 
-```sudo update-ca-certificates```
+### Подпись CSR с помощью приватного ключа для создания самоподписанного сертификата
 
+```bash
+openssl x509 -req -days 365 -in gitlab.csr -signkey gitlab.key -out gitlab.crt -extensions v3_ca -extfile openssl.cnf
+```
 
+### Копирование сертификата в системное хранилище
 
+```bash
+sudo cp gitlab.crt /usr/local/share/ca-certificates/gitlab.crt
+```
 
+### Обновление системных сертификатов
 
+```bash
+sudo update-ca-certificates
+```
 
-
-
-
-
-
-
-
-    
-
+-----------------
