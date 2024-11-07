@@ -144,6 +144,86 @@ gitlab-runner register --url http://51.250.72.68 --token glrt-t3_RVwTMVpEKMx9t-Q
 gitlab-runner run
 ```
 
+## Создание GitLab Runner в Docker
+
+### Создание скрипта `setup-gitlab-runner.sh`
+
+Создайте файл `setup-gitlab-runner.sh` со следующим содержимым:
+
+```bash
+#!/bin/bash
+
+# Установка Docker
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh ./get-docker.sh
+
+# Запрос ввода IP-адреса и токена регистрации
+read -p "Введите IP-адрес вашего сервера GitLab (например, http://51.250.72.68/): " CI_SERVER_URL
+read -p "Введите токен регистрации GitLab Runner (например, glrt-t3_iTc9_ktyrw7Z8ZYoszts): " REGISTRATION_TOKEN
+
+# Запрос ввода Docker-образа
+read -p "Введите Docker-образ (например, alpine:latest), или нажмите Enter для использования alpine:latest по умолчанию: " DOCKER_IMAGE
+DOCKER_IMAGE=${DOCKER_IMAGE:-alpine:latest}
+
+# Запрос ввода описания Runner
+read -p "Введите описание Runner, или нажмите Enter для использования 'my-runner' по умолчанию: " RUNNER_DESCRIPTION
+RUNNER_DESCRIPTION=${RUNNER_DESCRIPTION:-my-runner}
+
+# Остальные переменные
+RUNNER_EXECUTOR="docker"
+DOCKER_PRIVILEGED="true"
+
+# Создание директорий
+sudo mkdir -p /srv/gitlab-runner/config
+sudo touch /srv/gitlab-runner/config/config.toml
+sudo chmod 600 /srv/gitlab-runner/config/config.toml
+
+# Создание файла docker-compose-gitlab-runner.yml
+cat <<EOF > docker-compose-gitlab-runner.yml
+version: '3'
+services:
+  gitlab-runner:
+    image: gitlab/gitlab-runner:latest
+    container_name: gitlab-runner
+    restart: always
+    volumes:
+      - /srv/gitlab-runner/config:/etc/gitlab-runner
+      - /var/run/docker.sock:/var/run/docker.sock
+EOF
+
+# Запуск GitLab Runner
+sudo docker compose -f docker-compose-gitlab-runner.yml up -d
+
+# Регистрация GitLab Runner
+sudo docker exec -it gitlab-runner bash -c "
+gitlab-runner register \
+  --non-interactive \
+  --url $CI_SERVER_URL \
+  --registration-token $REGISTRATION_TOKEN \
+  --executor $RUNNER_EXECUTOR \
+  --docker-image $DOCKER_IMAGE \
+  --description $RUNNER_DESCRIPTION \
+  --docker-privileged $DOCKER_PRIVILEGED \
+  --docker-volumes /var/run/docker.sock:/var/run/docker.sock
+"
+
+echo "GitLab Runner успешно настроен и зарегистрирован."
+```
+
+### Предоставление прав на выполнение скрипта
+
+```bash
+sudo chmod +x setup-gitlab-runner.sh
+```
+
+### Запуск скрипта
+
+```bash
+./setup-gitlab-runner.sh
+```
+
+Этот скрипт автоматизирует процесс установки и настройки GitLab Runner в Docker. Следуйте инструкциям на экране для ввода необходимых данных.
+
 ## Генерация сертификата
 
 ### Создание файла конфигурации `openssl.cnf`
