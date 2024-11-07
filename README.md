@@ -29,10 +29,10 @@ services:
     image: gitlab/gitlab-ce:latest
     container_name: gitlab
     restart: always
-    hostname: '89.169.142.63' # Замените на ваш IP
+    hostname: '51.250.72.68' # Замените на ваш IP
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'http://89.169.142.63' # Замените на ваш IP
+        external_url 'http://51.250.72.68' # Замените на ваш IP
         gitlab_rails['initial_root_password'] = 'yourpassword1' # Замените на ваш пароль
     ports:
       - '80:80'
@@ -45,9 +45,15 @@ services:
     shm_size: '256m'
 ```
 
+**Примечание:** Замените `51.250.72.68` на ваш IP-адрес и `yourpassword1` на ваш пароль.
+
 -------------------
 
-### Получение пароля root (действителен 24 часа)
+## Получение пароля root (действителен 24 часа)
+
+-------------------
+
+Для получения начального пароля root выполните следующие команды:
 
 1. Откройте консоль контейнера GitLab:
 
@@ -61,7 +67,13 @@ services:
     cat /etc/gitlab/initial_root_password
     ```
 
-### Изменение пароля
+-------------------
+
+## Изменение пароля
+
+-------------------
+
+Для изменения пароля root выполните следующие команды:
 
 1. Откройте консоль контейнера GitLab:
 
@@ -136,6 +148,20 @@ sudo gitlab-runner install --user=gitlab-runner --working-directory=/home/gitlab
 sudo gitlab-runner start
 ```
 
+### Регистрация GitLab Runner
+
+```bash
+gitlab-runner register --url http://51.250.72.68 --token glrt-t3_RVwTMVpEKMx9t-QeDbUk
+```
+
+**Примечание:** Замените `51.250.72.68` на ваш IP-адрес и `glrt-t3_RVwTMVpEKMx9t-QeDbUk` на ваш токен.
+
+### Запуск GitLab Runner
+
+```bash
+gitlab-runner run
+```
+
 -----------------
 
 ## Генерация сертификата
@@ -159,7 +185,7 @@ ST = State
 L = City
 O = Organization
 OU = Unit
-CN = 89.169.142.63
+CN = 51.250.72.68
 
 [req_ext]
 subjectAltName = @alt_names
@@ -171,8 +197,10 @@ keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 extendedKeyUsage = serverAuth
 
 [alt_names]
-DNS.1 = 89.169.142.63
+DNS.1 = 51.250.72.68
 ```
+
+**Примечание:** Замените `51.250.72.68` на ваш IP-адрес.
 
 ### Генерация приватного ключа
 
