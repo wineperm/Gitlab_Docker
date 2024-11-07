@@ -47,34 +47,63 @@ services:
 
 -------------------
 
-## Получение пароля root (действителен 24 часа)
+### Получение пароля root (действителен 24 часа)
 
--------------------
+1. Откройте консоль контейнера GitLab:
 
-Для получения начального пароля root выполните следующие команды:
+    ```bash
+    sudo docker exec -it gitlab /bin/bash
+    ```
 
-```bash
-sudo docker exec -it gitlab /bin/bash
-cat /etc/gitlab/initial_root_password
-```
+2. Получите начальный пароль root:
 
--------------------
+    ```bash
+    cat /etc/gitlab/initial_root_password
+    ```
 
-## Изменение пароля
+### Изменение пароля
 
--------------------
+1. Откройте консоль контейнера GitLab:
 
-Для изменения пароля root выполните следующие команды:
+    ```bash
+    sudo docker exec -it gitlab /bin/bash
+    ```
 
-```bash
-sudo docker exec -it gitlab /bin/bash
-gitlab-rails console -e production
-user = User.where(id: 1).first
-user.password = 'new_password'
-user.password_confirmation = 'new_password'
-user.save!
-exit
-```
+2. Запустите консоль Rails:
+
+    ```bash
+    gitlab-rails console -e production
+    ```
+
+3. Найдите пользователя с ID 1:
+
+    ```ruby
+    user = User.where(id: 1).first
+    ```
+
+4. Установите новый пароль:
+
+    ```ruby
+    user.password = 'new_password'
+    ```
+
+5. Подтвердите новый пароль:
+
+    ```ruby
+    user.password_confirmation = 'new_password'
+    ```
+
+6. Сохраните изменения:
+
+    ```ruby
+    user.save!
+    ```
+
+7. Выйдите из консоли Rails:
+
+    ```ruby
+    exit
+    ```
 
 ------------------
 
