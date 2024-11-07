@@ -155,7 +155,12 @@ gitlab-runner run
 
 # Установка Docker
 curl -fsSL https://get.docker.com -o get-docker.sh
-sh ./get-docker.sh
+if sh ./get-docker.sh; then
+    echo "Docker успешно установлен."
+else
+    echo "УПС, что-то пошло не так при установке Docker."
+    exit 1
+fi
 
 # Запрос ввода IP-адреса и токена регистрации
 read -p "Введите IP-адрес вашего сервера GitLab (например, http://51.250.72.68/): " CI_SERVER_URL
@@ -192,10 +197,15 @@ services:
 EOF
 
 # Запуск GitLab Runner
-sudo docker compose -f docker-compose-gitlab-runner.yml up -d
+if sudo docker compose -f docker-compose-gitlab-runner.yml up -d; then
+    echo "GitLab Runner успешно запущен."
+else
+    echo "УПС, что-то пошло не так при запуске GitLab Runner."
+    exit 1
+fi
 
 # Регистрация GitLab Runner
-sudo docker exec -it gitlab-runner bash -c "
+if sudo docker exec -it gitlab-runner bash -c "
 gitlab-runner register \
   --non-interactive \
   --url $CI_SERVER_URL \
@@ -205,7 +215,12 @@ gitlab-runner register \
   --description $RUNNER_DESCRIPTION \
   --docker-privileged $DOCKER_PRIVILEGED \
   --docker-volumes /var/run/docker.sock:/var/run/docker.sock
-"
+"; then
+    echo "GitLab Runner успешно зарегистрирован."
+else
+    echo "УПС, что-то пошло не так при регистрации GitLab Runner."
+    exit 1
+fi
 
 echo "GitLab Runner успешно настроен и зарегистрирован."
 ```
