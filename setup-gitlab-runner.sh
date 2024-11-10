@@ -37,7 +37,6 @@ sudo chmod 600 /srv/gitlab-runner/config/config.toml
 
 # Создание файла docker-compose-gitlab-runner.yml
 cat <<EOF > docker-compose-gitlab-runner.yml
-version: '3'
 services:
   gitlab-runner:
     image: gitlab/gitlab-runner:latest

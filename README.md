@@ -147,7 +147,7 @@ gitlab-runner run
 ## Создание GitLab Runner в Docker
 
 ```
-wget https://github.com/wineperm/Gitlab_Docker/blob/main/setup-gitlab-runner.sh && chmod +x setup-gitlab-runner.sh
+wget https://raw.githubusercontent.com/wineperm/Gitlab_Docker/main/setup-gitlab-runner.sh && chmod +x setup-gitlab-runner.sh
 ```
 
 ### Создание скрипта `setup-gitlab-runner.sh`
@@ -194,7 +194,6 @@ sudo chmod 600 /srv/gitlab-runner/config/config.toml
 
 # Создание файла docker-compose-gitlab-runner.yml
 cat <<EOF > docker-compose-gitlab-runner.yml
-version: '3'
 services:
   gitlab-runner:
     image: gitlab/gitlab-runner:latest
