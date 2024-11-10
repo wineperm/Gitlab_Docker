@@ -146,6 +146,10 @@ gitlab-runner run
 
 ## Создание GitLab Runner в Docker
 
+```
+wget https://github.com/wineperm/Gitlab_Docker/blob/main/setup-gitlab-runner.sh
+```
+
 ### Создание скрипта `setup-gitlab-runner.sh`
 
 Создайте файл `setup-gitlab-runner.sh` со следующим содержимым:

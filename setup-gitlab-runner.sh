@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Проверка наличия Docker и установка его если его нет.
+# Проверка наличия Docker и установка если его нет.
 if ! command -v docker &> /dev/null; then
     echo "Docker не установлен. Устанавливаем Docker..."
     curl -fsSL https://get.docker.com -o get-docker.sh
