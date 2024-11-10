@@ -147,11 +147,7 @@ gitlab-runner run
 ## Создание GitLab Runner в Docker
 
 ```
-wget https://github.com/wineperm/Gitlab_Docker/blob/main/setup-gitlab-runner.sh
-```
-
-```
-chmod +x setup-gitlab-runner.sh
+wget https://github.com/wineperm/Gitlab_Docker/blob/main/setup-gitlab-runner.sh && chmod +x setup-gitlab-runner.sh
 ```
 
 ### Создание скрипта `setup-gitlab-runner.sh`
@@ -161,7 +157,7 @@ chmod +x setup-gitlab-runner.sh
 ```bash
 #!/bin/bash
 
-# Проверка наличия Docker и установка если его нет.
+# Проверка наличия Docker
 if ! command -v docker &> /dev/null; then
     echo "Docker не установлен. Устанавливаем Docker..."
     curl -fsSL https://get.docker.com -o get-docker.sh
