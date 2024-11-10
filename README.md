@@ -23,20 +23,20 @@ services:
     image: gitlab/gitlab-ce:latest
     container_name: gitlab
     restart: always
-    hostname: '51.250.72.68' # Замените на ваш IP
+    hostname: "51.250.72.68" # Замените на ваш IP
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         external_url 'http://51.250.72.68' # Замените на ваш IP
-      GITLAB_ROOT_PASSWORD: 'yourpassword1' # Замените на ваш пароль
+      GITLAB_ROOT_PASSWORD: "yourpassword1" # Замените на ваш пароль
     ports:
-      - '80:80'
-      - '443:443'
-      - '2222:22'  # Измененный порт для SSH
+      - "80:80"
+      - "443:443"
+      - "2222:22" # Измененный порт для SSH
     volumes:
-      - '/srv/gitlab/config:/etc/gitlab'
-      - '/srv/gitlab/logs:/var/log/gitlab'
-      - '/srv/gitlab/data:/var/opt/gitlab'
-    shm_size: '256m'
+      - "/srv/gitlab/config:/etc/gitlab"
+      - "/srv/gitlab/logs:/var/log/gitlab"
+      - "/srv/gitlab/data:/var/opt/gitlab"
+    shm_size: "256m"
 ```
 
 **Примечание:** Замените `51.250.72.68` на ваш IP-адрес и `yourpassword1` на ваш пароль.
@@ -47,15 +47,15 @@ services:
 
 1. Откройте консоль контейнера GitLab:
 
-    ```bash
-    sudo docker exec -it gitlab /bin/bash
-    ```
+   ```bash
+   sudo docker exec -it gitlab /bin/bash
+   ```
 
 2. Получите начальный пароль root:
 
-    ```bash
-    cat /etc/gitlab/initial_root_password
-    ```
+   ```bash
+   cat /etc/gitlab/initial_root_password
+   ```
 
 ## Изменение пароля
 
@@ -63,45 +63,45 @@ services:
 
 1. Откройте консоль контейнера GitLab:
 
-    ```bash
-    sudo docker exec -it gitlab /bin/bash
-    ```
+   ```bash
+   sudo docker exec -it gitlab /bin/bash
+   ```
 
 2. Запустите консоль Rails:
 
-    ```bash
-    gitlab-rails console -e production
-    ```
+   ```bash
+   gitlab-rails console -e production
+   ```
 
 3. Найдите пользователя с ID 1:
 
-    ```ruby
-    user = User.where(id: 1).first
-    ```
+   ```ruby
+   user = User.where(id: 1).first
+   ```
 
 4. Установите новый пароль:
 
-    ```ruby
-    user.password = 'new_password'
-    ```
+   ```ruby
+   user.password = 'new_password'
+   ```
 
 5. Подтвердите новый пароль:
 
-    ```ruby
-    user.password_confirmation = 'new_password'
-    ```
+   ```ruby
+   user.password_confirmation = 'new_password'
+   ```
 
 6. Сохраните изменения:
 
-    ```ruby
-    user.save!
-    ```
+   ```ruby
+   user.save!
+   ```
 
 7. Выйдите из консоли Rails:
 
-    ```ruby
-    exit
-    ```
+   ```ruby
+   exit
+   ```
 
 ## Установка GitLab Runner
 
@@ -153,13 +153,18 @@ gitlab-runner run
 ```bash
 #!/bin/bash
 
-# Установка Docker
-curl -fsSL https://get.docker.com -o get-docker.sh
-if sh ./get-docker.sh; then
-    echo "Docker успешно установлен."
+# Проверка наличия Docker и установка его если его нет.
+if ! command -v docker &> /dev/null; then
+    echo "Docker не установлен. Устанавливаем Docker..."
+    curl -fsSL https://get.docker.com -o get-docker.sh
+    if sh ./get-docker.sh; then
+        echo "Docker успешно установлен."
+    else
+        echo "УПС, что-то пошло не так при установке Docker."
+        exit 1
+    fi
 else
-    echo "УПС, что-то пошло не так при установке Docker."
-    exit 1
+    echo "Docker уже установлен."
 fi
 
 # Запрос ввода IP-адреса и токена регистрации
