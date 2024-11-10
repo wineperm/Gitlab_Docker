@@ -1,6 +1,6 @@
 # Инструкция по установке и настройке GitLab с использованием Docker
 
-Эта инструкция описывает процесс установки и настройки GitLab с использованием Docker, а также установки и регистрации GitLab Runner. Установка GitLab Runner может быть выполнена как на отдельном сервере, так и с помощью скрипта в Docker контейнере. Кроме того, приводится процедура генерации самоподписанного SSL-сертификата для обеспечения безопасного соединения.
+Эта инструкция описывает процесс установки и настройки [GitLab с использованием Docker](https://github.com/wineperm/Gitlab_Docker/blob/main/README.md#установка-gitlab), а также установки и регистрации GitLab Runner. Установка GitLab Runner может быть выполнена как на [отдельном сервере](https://github.com/wineperm/Gitlab_Docker/blob/main/README.md#установка-gitlab-runner), так и с помощью [скрипта в Docker контейнере](https://github.com/wineperm/Gitlab_Docker/blob/main/README.md#создание-gitlab-runner-в-docker). Кроме того, приводится процедура [генерации самоподписанного SSL-сертификата](https://github.com/wineperm/Gitlab_Docker/blob/main/README.md#создание-файла-конфигурации-opensslcnf) для обеспечения безопасного соединения.
 
 ## Установка Docker
 
