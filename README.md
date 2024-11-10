@@ -27,7 +27,7 @@ services:
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         external_url 'http://51.250.72.68' # Замените на ваш IP
-        gitlab_rails['initial_root_password'] = 'yourpassword1' # Замените на ваш пароль
+      GITLAB_ROOT_PASSWORD: 'yourpassword1' # Замените на ваш пароль
     ports:
       - '80:80'
       - '443:443'
