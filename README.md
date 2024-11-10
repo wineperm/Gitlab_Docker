@@ -150,6 +150,10 @@ gitlab-runner run
 wget https://github.com/wineperm/Gitlab_Docker/blob/main/setup-gitlab-runner.sh
 ```
 
+```
+chmod +x setup-gitlab-runner.sh
+```
+
 ### Создание скрипта `setup-gitlab-runner.sh`
 
 Создайте файл `setup-gitlab-runner.sh` со следующим содержимым:
