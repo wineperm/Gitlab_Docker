@@ -157,7 +157,7 @@ wget https://raw.githubusercontent.com/wineperm/Gitlab_Docker/main/setup-gitlab-
 ```bash
 #!/bin/bash
 
-# Проверка наличия Docker
+# Проверка наличия Docker и установка если его нет.
 if ! command -v docker &> /dev/null; then
     echo "Docker не установлен. Устанавливаем Docker..."
     curl -fsSL https://get.docker.com -o get-docker.sh
@@ -221,7 +221,7 @@ gitlab-runner register \
   --executor $RUNNER_EXECUTOR \
   --docker-image $DOCKER_IMAGE \
   --description $RUNNER_DESCRIPTION \
-  --docker-privileged $DOCKER_PRIVILEGED \
+  --docker-privileged=$DOCKER_PRIVILEGED \
   --docker-volumes /var/run/docker.sock:/var/run/docker.sock
 "; then
     echo "GitLab Runner успешно зарегистрирован."

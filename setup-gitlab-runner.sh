@@ -64,7 +64,7 @@ gitlab-runner register \
   --executor $RUNNER_EXECUTOR \
   --docker-image $DOCKER_IMAGE \
   --description $RUNNER_DESCRIPTION \
-  --docker-privileged $DOCKER_PRIVILEGED \
+  --docker-privileged=$DOCKER_PRIVILEGED \
   --docker-volumes /var/run/docker.sock:/var/run/docker.sock
 "; then
     echo "GitLab Runner успешно зарегистрирован."
