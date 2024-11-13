@@ -196,7 +196,7 @@ sudo chmod +x setup-gitlab-runner.sh
 ## Создание/установка/регистрация GitLab Runner в Docker на том же хосте, что и Gitlab.
 
 ```
-wget https://raw.githubusercontent.com/wineperm/Gitlab_Docker/main/setup-gitlab-runner-hosts.sh && chmod +x setup-gitlab-runner-hosts.sh.sh
+wget https://raw.githubusercontent.com/wineperm/Gitlab_Docker/main/setup-gitlab-runner-hosts.sh && chmod +x setup-gitlab-runner-hosts.sh
 ```
 
 ### Создание скрипта `setup-gitlab-runner-hosts.sh`
