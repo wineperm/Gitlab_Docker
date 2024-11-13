@@ -89,7 +89,7 @@ gitlab-runner register --url http://51.250.72.68 --token glrt-t3_RVwTMVpEKMx9t-Q
 gitlab-runner run
 ```
 
-## Создание GitLab Runner в Docker на другом хосте, что GitLab. 
+## Создание/установка/регистрация GitLab Runner в Docker на другом хосте, что GitLab. 
 
 ```
 wget https://raw.githubusercontent.com/wineperm/Gitlab_Docker/main/setup-gitlab-runner.sh && chmod +x setup-gitlab-runner.sh
@@ -193,7 +193,7 @@ sudo chmod +x setup-gitlab-runner.sh
 Этот скрипт автоматизирует процесс установки и настройки GitLab Runner в Docker. Следуйте инструкциям на экране для ввода необходимых данных.
 
 
-## Создание GitLab Runner в Docker на том же хосте, что и Gitlab.
+## Создание/установка/регистрация GitLab Runner в Docker на том же хосте, что и Gitlab.
 
 ```
 wget https://raw.githubusercontent.com/wineperm/Gitlab_Docker/main/setup-gitlab-runner-hosts.sh && chmod +x setup-gitlab-runner-hosts.sh.sh
