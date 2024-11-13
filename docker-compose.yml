@@ -1,0 +1,26 @@
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    container_name: gitlab
+    restart: always
+    hostname: "51.250.72.68" # Замените на ваш IP
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://51.250.72.68' # Замените на ваш IP
+      GITLAB_ROOT_PASSWORD: "yourpassword1" # Замените на ваш пароль
+    ports:
+      - "80:80"
+      - "443:443"
+      - "2222:22" # Измененный порт для SSH
+    volumes:
+      - "/srv/gitlab/config:/etc/gitlab"
+      - "/srv/gitlab/logs:/var/log/gitlab"
+      - "/srv/gitlab/data:/var/opt/gitlab"
+    shm_size: "256m"  
+#    networks: # Раскомментируй блок, если runner будет на том же хосте, что и GitLab, в docker-контейнере.
+#      - gitlab-network
+#
+#networks:
+#  gitlab-network:
+#    driver: bridge
+#    name: gitlab-network
