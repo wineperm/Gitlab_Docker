@@ -36,8 +36,8 @@ services:
       - "/srv/gitlab/config:/etc/gitlab"
       - "/srv/gitlab/logs:/var/log/gitlab"
       - "/srv/gitlab/data:/var/opt/gitlab"
-#    shm_size: "256m" # Раскомментируй блок, если runner будет на том же хосте, что и GitLab, в docker-контейнере. 
-#    networks:
+    shm_size: "256m"  
+#    networks: # Раскомментируй блок, если runner будет на том же хосте, что и GitLab, в docker-контейнере.
 #      - gitlab-network
 #
 #networks:
