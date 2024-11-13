@@ -41,68 +41,6 @@ services:
 
 **Примечание:** Замените `51.250.72.68` на ваш IP-адрес и `yourpassword1` на ваш пароль.
 
-## Получение пароля root (действителен 24 часа)
-
-Для получения начального пароля root выполните следующие команды:
-
-1. Откройте консоль контейнера GitLab:
-
-   ```bash
-   sudo docker exec -it gitlab /bin/bash
-   ```
-
-2. Получите начальный пароль root:
-
-   ```bash
-   cat /etc/gitlab/initial_root_password
-   ```
-
-## Изменение пароля
-
-Для изменения пароля root выполните следующие команды:
-
-1. Откройте консоль контейнера GitLab:
-
-   ```bash
-   sudo docker exec -it gitlab /bin/bash
-   ```
-
-2. Запустите консоль Rails:
-
-   ```bash
-   gitlab-rails console -e production
-   ```
-
-3. Найдите пользователя с ID 1:
-
-   ```ruby
-   user = User.where(id: 1).first
-   ```
-
-4. Установите новый пароль:
-
-   ```ruby
-   user.password = 'new_password'
-   ```
-
-5. Подтвердите новый пароль:
-
-   ```ruby
-   user.password_confirmation = 'new_password'
-   ```
-
-6. Сохраните изменения:
-
-   ```ruby
-   user.save!
-   ```
-
-7. Выйдите из консоли Rails:
-
-   ```ruby
-   exit
-   ```
-
 ## Установка GitLab Runner
 
 ### Скачивание бинарного файла для вашей системы
@@ -246,6 +184,68 @@ sudo chmod +x setup-gitlab-runner.sh
 ```
 
 Этот скрипт автоматизирует процесс установки и настройки GitLab Runner в Docker. Следуйте инструкциям на экране для ввода необходимых данных.
+
+## Получение пароля root (действителен 24 часа)
+
+Для получения начального пароля root выполните следующие команды:
+
+1. Откройте консоль контейнера GitLab:
+
+   ```bash
+   sudo docker exec -it gitlab /bin/bash
+   ```
+
+2. Получите начальный пароль root:
+
+   ```bash
+   cat /etc/gitlab/initial_root_password
+   ```
+
+## Изменение пароля
+
+Для изменения пароля root выполните следующие команды:
+
+1. Откройте консоль контейнера GitLab:
+
+   ```bash
+   sudo docker exec -it gitlab /bin/bash
+   ```
+
+2. Запустите консоль Rails:
+
+   ```bash
+   gitlab-rails console -e production
+   ```
+
+3. Найдите пользователя с ID 1:
+
+   ```ruby
+   user = User.where(id: 1).first
+   ```
+
+4. Установите новый пароль:
+
+   ```ruby
+   user.password = 'new_password'
+   ```
+
+5. Подтвердите новый пароль:
+
+   ```ruby
+   user.password_confirmation = 'new_password'
+   ```
+
+6. Сохраните изменения:
+
+   ```ruby
+   user.save!
+   ```
+
+7. Выйдите из консоли Rails:
+
+   ```ruby
+   exit
+   ```
 
 ## Генерация сертификата
 
