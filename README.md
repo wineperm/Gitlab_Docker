@@ -82,7 +82,7 @@ gitlab-runner register --url http://51.250.72.68 --token glrt-t3_RVwTMVpEKMx9t-Q
 gitlab-runner run
 ```
 
-## Создание GitLab Runner в Docker
+## Создание GitLab Runner в Docker с помощью скрипты
 
 ```
 wget https://raw.githubusercontent.com/wineperm/Gitlab_Docker/main/setup-gitlab-runner.sh && chmod +x setup-gitlab-runner.sh
