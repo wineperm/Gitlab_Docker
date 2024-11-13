@@ -15,9 +15,13 @@ sh ./get-docker.sh
 
 ### Создание файла `docker-compose.yml`
 
+```
+wget https://raw.githubusercontent.com/wineperm/Gitlab_Docker/main/docker-compose.yml
+```
+
 Создайте файл `docker-compose.yml` со следующим содержимым:
 
-```yaml
+```
 services:
   gitlab:
     image: gitlab/gitlab-ce:latest
